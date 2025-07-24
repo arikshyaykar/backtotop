@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      margin: 0;
+      background: transparent;
+    }
+    #backToTopBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #1D3561;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      padding: 14px;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 9999;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      display: none;
+    }
+    #backToTopBtn:hover {
+      background-color: #16294b;
+    }
+  </style>
+</head>
+<body>
+  <button id="backToTopBtn" title="Volver arriba">↑</button>
+
+  <script>
+    const btn = document.getElementById("backToTopBtn");
+
+    window.addEventListener("message", function(event) {
+      if (event.data === "scrolling") {
+        if (window.parent.scrollY > 300) {
+          btn.style.display = "block";
+        } else {
+          btn.style.display = "none";
+        }
+      }
+    });
+
+    btn.addEventListener("click", () => {
+      window.parent.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Detecta el scroll en el padre
+    setInterval(() => {
+      window.parent.postMessage("scrolling", "*");
+    }, 300);
+  </script>
+</body>
+</html>
